@@ -27,3 +27,16 @@ tabs.forEach((tab, index) => {
     }
   });
 });
+
+const appStoreDialog = document.querySelector('#app-store-dialog');
+document.querySelectorAll('[data-app-store]').forEach(button => {
+  button.addEventListener('click', () => appStoreDialog?.showModal());
+});
+appStoreDialog?.addEventListener('click', event => {
+  if (event.target !== appStoreDialog) return;
+  const bounds = appStoreDialog.getBoundingClientRect();
+  if (event.clientX < bounds.left || event.clientX > bounds.right ||
+      event.clientY < bounds.top || event.clientY > bounds.bottom) {
+    appStoreDialog.close();
+  }
+});
