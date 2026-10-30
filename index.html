@@ -1,8 +1,24 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f8f2">
+<script>
+(() => {
+  const reloading = performance.getEntriesByType('navigation')[0]?.type === 'reload';
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (reloading && location.hash) {
+    history.replaceState(history.state, '', location.pathname + location.search);
+  }
+  const startAtTop = () => {
+    if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  };
+  startAtTop();
+  window.addEventListener('pageshow', event => {
+    if (!event.persisted) startAtTop();
+  });
+})();
+</script>
 <title>C:Keeper — Good things. Well kept.</title><meta name="description" content="A little home for what you own. Keep purchase details, receipts and warranties together, and see the value in every day.">
 <meta property="og:type" content="website"><meta property="og:title" content="C:Keeper — Good things. Well kept."><meta property="og:description" content="A little home for what you own. Keep purchase details, receipts and warranties together, and see the value in every day.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css?v=20261030-art-direction"><script src="site.js?v=20261030-art-direction" defer></script>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css?v=20261030-art-direction"><script src="site.js?v=20261030-scroll-start" defer></script>
 </head><body><a href="#main" class="skip">Skip to content</a>
     <header class="header wrap"><a class="brand" href="./" aria-label="C:Keeper home"><span class="c">C:</span>Keeper</a>
       <nav class="nav" aria-label="Main navigation">

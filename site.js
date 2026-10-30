@@ -31,14 +31,6 @@ tabs.forEach((tab, index) => {
 });
 
 const appStoreDialog = document.querySelector('#app-store-dialog');
-if (appStoreDialog && !location.hash) {
-  history.scrollRestoration = 'manual';
-  const startAtTop = () => {
-    if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  };
-  startAtTop();
-  window.addEventListener('pageshow', startAtTop);
-}
 
 let dialogOpener;
 let dialogScrollPosition;
