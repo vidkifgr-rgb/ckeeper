@@ -29,8 +29,30 @@ tabs.forEach((tab, index) => {
 });
 
 const appStoreDialog = document.querySelector('#app-store-dialog');
+if (appStoreDialog && !location.hash) {
+  history.scrollRestoration = 'manual';
+  const startAtTop = () => {
+    if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  };
+  startAtTop();
+  window.addEventListener('pageshow', startAtTop);
+}
+
+let dialogOpener;
+let dialogScrollPosition;
 document.querySelectorAll('[data-app-store]').forEach(button => {
-  button.addEventListener('click', () => appStoreDialog?.showModal());
+  button.addEventListener('click', () => {
+    if (!appStoreDialog) return;
+    dialogOpener = button;
+    dialogScrollPosition = { top: window.scrollY, left: window.scrollX, behavior: 'instant' };
+    appStoreDialog.showModal();
+    appStoreDialog.querySelector('.dialog-confirm').focus({ preventScroll: true });
+    window.scrollTo(dialogScrollPosition);
+  });
+});
+appStoreDialog?.addEventListener('close', () => {
+  dialogOpener?.focus({ preventScroll: true });
+  if (dialogScrollPosition) window.scrollTo(dialogScrollPosition);
 });
 appStoreDialog?.addEventListener('click', event => {
   if (event.target !== appStoreDialog) return;
