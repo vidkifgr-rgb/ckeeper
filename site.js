@@ -5,6 +5,8 @@ function selectScreen(tab, focus = false) {
   if (!screen) return;
   screen.src = tab.dataset.src;
   screen.alt = tab.dataset.alt;
+  const caption = document.querySelector('[data-screen-caption]');
+  if (caption) caption.textContent = tab.dataset.caption;
   screen.closest('[role="tabpanel"]').setAttribute('aria-labelledby', tab.id);
   tabs.forEach(item => {
     const selected = item === tab;
